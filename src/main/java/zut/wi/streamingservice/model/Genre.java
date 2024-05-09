@@ -2,10 +2,13 @@ package zut.wi.streamingservice.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Table(name = "genres")
 @Data
@@ -18,4 +21,7 @@ public class Genre extends BaseEntity{
 
     @Column(name = "description")
     private String description;
+
+    @ManyToMany
+    private List<Content> contents;
 }

@@ -21,4 +21,10 @@ public class Comment extends BaseEntity{
 
     @Column(name = "comment_text")
     private String commentText;
+
+    @ManyToOne
+    private User user;
+
+    @ManyToOne
+    private Content content;
 }

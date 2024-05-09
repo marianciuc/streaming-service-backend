@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.ManyToAny;
 import org.hibernate.type.SqlTypes;
 import zut.wi.streamingservice.enums.AdditionalMediaType;
 
@@ -18,10 +19,10 @@ public class AdditionalMedia extends BaseEntity{
     @Column(name = "type", length = 30)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private AdditionalMediaType type;
-}
 
-/*
-TODO
- - Ref: content.id <  additional_media.content_id
- - Ref: additional_media.media.id - attachment.id
-*/
+    @Column(name = "url")
+    private String url;
+
+    @OneToOne
+    private Attachment attachment;
+}

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Table(name = "seasons")
@@ -22,4 +23,13 @@ public class Season extends BaseEntity{
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
+
+    @OneToMany
+    private List<Episode> episodes;
+
+    @ManyToOne
+    private Content content;
+
+    @Column(name = "number")
+    private Integer number;
 }

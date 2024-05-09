@@ -3,15 +3,11 @@ package zut.wi.streamingservice.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-@Getter
-@Setter
-@ToString
 @Entity
 @Table(name = "users")
 @Data
@@ -53,4 +49,13 @@ public class User extends BaseEntity{
 
     @Column(name = "city")
     private String city;
+
+    @OneToOne
+    private UserSettings userSettings;
+
+    @ManyToOne
+    private UserSubscription activeSubscription;
+
+    @ManyToMany
+    private List<Role> roles = new ArrayList<>();
 }

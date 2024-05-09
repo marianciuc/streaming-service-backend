@@ -6,7 +6,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "content")
@@ -36,4 +38,13 @@ public class Content extends BaseEntity{
     @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
+
+    @ManyToOne
+    private Category category;
+
+    @OneToMany
+    private List<Genre> genres = new ArrayList<>();
+
+    @OneToMany
+    private List<AdditionalMedia> additionalMedia = new ArrayList<>();
 }

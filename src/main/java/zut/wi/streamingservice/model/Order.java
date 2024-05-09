@@ -16,6 +16,9 @@ import java.math.BigDecimal;
 @Setter
 @Entity
 public class Order extends BaseEntity{
+    @Column(name = "order_number", unique = true)
+    private Integer orderNumber;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status", length = 30, columnDefinition = "varchar(30) default 'CREATED'")
     @JdbcTypeCode(SqlTypes.VARCHAR)
@@ -23,4 +26,7 @@ public class Order extends BaseEntity{
 
     @Column(name = "total_amount")
     private BigDecimal totalAmount;
+
+    @ManyToOne
+    private User user;
 }
