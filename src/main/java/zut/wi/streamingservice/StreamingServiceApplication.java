@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class StreamingserviceApplication {
+public class StreamingServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(StreamingserviceApplication.class, args);
+		SpringApplication.run(StreamingServiceApplication.class, args);
 	}
 
 }
