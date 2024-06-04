@@ -21,7 +21,4 @@ public class Genre extends BaseEntity{
 
     @Column(name = "description")
     private String description;
-
-    @ManyToMany
-    private List<Content> contents;
 }
