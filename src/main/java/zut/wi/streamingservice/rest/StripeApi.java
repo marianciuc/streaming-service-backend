@@ -14,13 +14,13 @@ public class StripeApi {
 
     @PostMapping("/card/token")
     @ResponseBody
-    public StripeTokenDto createCardToken(@RequestBody StripeTokenDto model){
+    public StripeTokenDto createCardToken(@RequestBody StripeTokenDto model) {
         return stripeService.createCardToken(model);
     }
 
     @PostMapping("/charge")
     @ResponseBody
-    public StripeChargeDto charge(@RequestBody StripeChargeDto model){
+    public StripeChargeDto charge(@RequestBody StripeChargeDto model) {
         return stripeService.charge(model);
     }
 }
