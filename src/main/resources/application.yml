@@ -39,8 +39,8 @@ spring:
       file-size-threshold: 2KB
 server:
   port: 8080
+jwt:
+  secret-key: b26abf5db60ed7128830420838e03dbf6b729d74143d1e0a1dfa268d339f781a
 api:
   stripe:
     key: sk_test_51MjSvlFARn3daPh2BZK5w2CdwkxDqUcUzgoHW6WYFYCo227NlUr7tQuamhdGkrvHdTmJkS3vqKlfjqRyFciHf0a200l9ciSAhM
-jwt:
-  secret-key: b26abf5db60ed7128830420838e03dbf6b729d74143d1e0a1dfa268d339f781a
