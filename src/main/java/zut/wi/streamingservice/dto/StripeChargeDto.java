@@ -14,4 +14,5 @@ public class StripeChargeDto {
     private String message;
     private String chargeId;
     private Map<String, Object> additionalInfo = new HashMap<>();
+    private String currency;
 }

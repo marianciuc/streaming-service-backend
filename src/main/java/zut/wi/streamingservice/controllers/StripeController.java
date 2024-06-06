@@ -1,4 +1,4 @@
-package zut.wi.streamingservice.rest;
+package zut.wi.streamingservice.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -9,14 +9,8 @@ import zut.wi.streamingservice.service.StripeService;
 @RestController
 @RequestMapping("/stripe")
 @AllArgsConstructor
-public class StripeApi {
+public class StripeController {
     private final StripeService stripeService;
-
-    @PostMapping("/card/token")
-    @ResponseBody
-    public StripeTokenDto createCardToken(@RequestBody StripeTokenDto model) {
-        return stripeService.createCardToken(model);
-    }
 
     @PostMapping("/charge")
     @ResponseBody
