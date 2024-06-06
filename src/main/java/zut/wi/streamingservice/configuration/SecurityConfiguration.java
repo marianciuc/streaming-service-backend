@@ -10,6 +10,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static zut.wi.streamingservice.enums.Routes.*;
+
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
@@ -24,7 +26,7 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/authentication/**")
+                .requestMatchers(AUTHENTICATION.getRoute())
                 .permitAll()
                 .anyRequest()
                 .authenticated()
@@ -34,8 +36,6 @@ public class SecurityConfiguration {
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
-
         return httpSecurity.build();
     }
 }

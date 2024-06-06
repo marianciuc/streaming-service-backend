@@ -1,18 +1,22 @@
 package zut.wi.streamingservice.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Data
 @Table(name = "user_settings")
 @Entity
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserSettings extends BaseEntity{
     @Column(name = "language")
     private String language;
 
     @Column(name = "theme")
     private String theme;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

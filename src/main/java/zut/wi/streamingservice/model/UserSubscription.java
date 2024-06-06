@@ -14,10 +14,12 @@ import java.util.Date;
 @Table(name = "user_subscriptions")
 public class UserSubscription extends BaseEntity{
     @ManyToOne
-    User user;
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne
-    Subscription subscription;
+    @JoinColumn(name = "subscription_id", nullable = false)
+    private Subscription subscription;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", length = 30)
