@@ -10,7 +10,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import zut.wi.streamingservice.enums.RoleEnum;
+import zut.wi.streamingservice.enums.SubscriptionStatus;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -60,11 +62,8 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "city")
     private String city;
 
-    @OneToOne
-    private UserSettings userSettings;
-
-    @ManyToOne
-    private UserSubscription activeSubscription;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserSubscription> subscriptions = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
@@ -72,6 +71,16 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
+    }
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    private UserSettings userSettings;
+
+    @PrePersist
+    public void prePersist() {
+        if (this.userSettings == null) {
+            this.userSettings = new UserSettings("en", "light",this);
+        }
     }
 
     @Override
@@ -102,5 +111,14 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Subscription getActiveSubscription(){
+        for (UserSubscription userSubscription : subscriptions) {
+            if (userSubscription.getSubscriptionStatus() == SubscriptionStatus.ACTIVE && userSubscription.getExpiredAt().after(new Date())) {
+                return userSubscription.getSubscription();
+            }
+        }
+        return null;
     }
 }

@@ -15,16 +15,16 @@ import zut.wi.streamingservice.enums.ModerationStatus;
 @Entity
 public class Comment extends BaseEntity{
     @Enumerated(EnumType.STRING)
-    @Column(name = "approve_status", length = 30, columnDefinition = "varchar(30) default 'PENDING'")
+    @Column(name = "approve_status", length = 30)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private ModerationStatus approveStatus = ModerationStatus.PENDING;
 
     @Column(name = "comment_text")
     private String commentText;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Content content;
 }

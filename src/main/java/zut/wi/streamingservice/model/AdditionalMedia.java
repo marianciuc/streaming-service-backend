@@ -9,6 +9,9 @@ import org.hibernate.annotations.ManyToAny;
 import org.hibernate.type.SqlTypes;
 import zut.wi.streamingservice.enums.AdditionalMediaType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Table(name = "additional_media")
 @Entity
@@ -20,9 +23,10 @@ public class AdditionalMedia extends BaseEntity{
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private AdditionalMediaType type;
 
-    @Column(name = "url")
+    @Column(name = "url", unique = true, nullable = false)
     private String url;
 
-    @OneToOne
-    private Attachment attachment;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "content_id")
+    private Content content;
 }

@@ -1,16 +1,16 @@
 package zut.wi.streamingservice.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Date;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Table(name = "seasons")
 @Entity
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Season extends BaseEntity{
@@ -24,10 +24,12 @@ public class Season extends BaseEntity{
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "season")
+    @OrderBy("number ASC")
     private List<Episode> episodes;
 
     @ManyToOne
+    @JoinColumn(name = "content_id")
     private Content content;
 
     @Column(name = "number")

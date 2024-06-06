@@ -1,12 +1,9 @@
-package zut.wi.streamingservice.rest;
+package zut.wi.streamingservice.controllers;
 
 
-import com.google.rpc.context.AttributeContext;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import zut.wi.streamingservice.dto.StripeTokenDto;
 import zut.wi.streamingservice.dto.request.AuthenticationRequest;
 import zut.wi.streamingservice.dto.request.RegisterRequest;
 import zut.wi.streamingservice.dto.response.AuthenticationResponse;

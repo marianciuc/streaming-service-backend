@@ -30,4 +30,7 @@ public class Attachment extends BaseEntity{
     @Lob
     @Column(name = "data", columnDefinition = "LONGBLOB")
     private byte[] data;
+
+    @Column(name = "description")
+    private String description;
 }

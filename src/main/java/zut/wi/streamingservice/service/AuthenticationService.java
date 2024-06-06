@@ -35,11 +35,13 @@ public class AuthenticationService {
      */
     public AuthenticationResponse register(RegisterRequest request) {
         var user = User.builder()
-                .firstName(request.getFirstName())
+                .firstName(request.getFirstname())
                 .lastName(request.getLastname())
                 .email(request.getEmail())
                 .passwordHash(passwordEncoder.encode(request.getPassword()))
                 .role(RoleEnum.USER)
+                .country(request.getCountry())
+                .username(request.getUsername())
                 .build();
         userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);

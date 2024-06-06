@@ -6,9 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "content")
@@ -39,12 +37,17 @@ public class Content extends BaseEntity{
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
-    @OneToMany
-    private List<Genre> genres = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "content_genres",
+            joinColumns = @JoinColumn(name = "content_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private Set<Genre> genres = new HashSet<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "content", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<AdditionalMedia> additionalMedia = new ArrayList<>();
 }

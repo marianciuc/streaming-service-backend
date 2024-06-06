@@ -8,7 +8,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Table(name = "genres")
 @Data
@@ -16,9 +18,12 @@ import java.util.List;
 @Setter
 @Entity
 public class Genre extends BaseEntity{
-    @Column(name = "title")
+    @Column(name = "title", nullable = false, unique = true)
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
+
+    @ManyToMany(mappedBy = "genres")
+    private Set<Content> contents = new HashSet<>();
 }

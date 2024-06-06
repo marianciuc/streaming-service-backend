@@ -11,12 +11,12 @@ import lombok.Setter;
 @Data
 @Entity
 public class Episode extends BaseEntity{
-    @Column(name = "number")
+    @Column(name = "episode_number")
     private Integer number;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Season season;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Attachment attachment;
 }
