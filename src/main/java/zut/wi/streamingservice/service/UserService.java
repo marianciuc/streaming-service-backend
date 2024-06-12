@@ -7,10 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import zut.wi.streamingservice.dto.response.MessageResponse;
 import zut.wi.streamingservice.model.User;
 import zut.wi.streamingservice.model.UserSettings;
 import zut.wi.streamingservice.repository.SettingsRepository;
 import zut.wi.streamingservice.repository.UserRepository;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -35,4 +38,10 @@ public class UserService {
             throw new RuntimeException("User authentication error.");
         }
     }
+
+//    public MessageResponse blockUser(UUID userId){
+//        try {
+//
+//        }
+//    }
 }

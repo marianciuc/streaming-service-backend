@@ -9,11 +9,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface ContentRepository extends JpaRepository<Content, UUID> {
-    @Override
-    Optional<Content> findById(UUID uuid);
-
-    @Override
-    List<Content> findAll();
-
     List<Content> findAllByCategory(Category category);
 }

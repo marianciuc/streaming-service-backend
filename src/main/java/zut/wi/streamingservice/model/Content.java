@@ -1,19 +1,17 @@
 package zut.wi.streamingservice.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "content")
 @Data
-@Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
+@Builder
 public class Content extends BaseEntity{
     @Column(name = "poster_url")
     private String posterUrl;
@@ -46,7 +44,7 @@ public class Content extends BaseEntity{
             joinColumns = @JoinColumn(name = "content_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )
-    private Set<Genre> genres = new HashSet<>();
+    private List<Genre> genres = new ArrayList<>();
 
     @OneToMany(mappedBy = "content", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<AdditionalMedia> additionalMedia = new ArrayList<>();

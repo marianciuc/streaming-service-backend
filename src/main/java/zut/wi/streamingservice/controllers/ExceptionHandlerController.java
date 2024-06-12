@@ -1,5 +1,6 @@
 package zut.wi.streamingservice.controllers;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -29,6 +30,17 @@ public class ExceptionHandlerController {
         return ExceptionResponse
                 .builder()
                 .statusCode(HttpStatus.PAYMENT_REQUIRED.value())
+                .timestamp(new Date())
+                .message(ex.getMessage())
+                .build();
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    @ResponseStatus(value = HttpStatus.PAYMENT_REQUIRED)
+    public ExceptionResponse runtimeExceptionHandler(ExpiredJwtException ex, WebRequest request) {
+        return ExceptionResponse
+                .builder()
+                .statusCode(HttpStatus.FORBIDDEN.value())
                 .timestamp(new Date())
                 .message(ex.getMessage())
                 .build();

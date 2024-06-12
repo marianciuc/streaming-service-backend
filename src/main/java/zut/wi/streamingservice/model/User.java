@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import zut.wi.streamingservice.enums.RoleEnum;
 import zut.wi.streamingservice.enums.SubscriptionStatus;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -68,6 +69,10 @@ public class User extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private List<Payment> payments;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
@@ -120,5 +125,19 @@ public class User extends BaseEntity implements UserDetails {
             }
         }
         return null;
+    }
+
+    public BigDecimal calculateBalance() {
+        BigDecimal balance = BigDecimal.ZERO;
+
+        for (Payment payment : payments) {
+            if (payment.getTransactionType() == Payment.TransactionType.DEPOSIT) {
+                balance = balance.add(payment.getAmount());
+            } else if (payment.getTransactionType() == Payment.TransactionType.WITHDRAWAL) {
+                balance = balance.subtract(payment.getAmount());
+            }
+        }
+
+        return balance;
     }
 }

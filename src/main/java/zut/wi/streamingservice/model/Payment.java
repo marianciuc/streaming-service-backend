@@ -7,6 +7,7 @@ import org.hibernate.type.SqlTypes;
 import zut.wi.streamingservice.enums.PaymentStatus;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Table(name = "payments")
 @Data
