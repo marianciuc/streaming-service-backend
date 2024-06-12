@@ -24,17 +24,14 @@ import java.util.Map;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class StripeService {
 
     @Value("${api.stripe.key}")
     private String stripeApiKey;
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private PaymentsRepository paymentsRepository;
+    private PaymentService paymentService;
 
 
     /**
@@ -78,7 +75,7 @@ public class StripeService {
             if (charge.getPaid()) {
                 chargeRequest.setChargeId(charge.getId());
                 chargeRequest.setSuccess(true);
-                savePayment(charge);
+                paymentService.savePayment(charge);
             } else {
                 throw new PaymentDeclinedError("Payment declined.");
             }
@@ -86,19 +83,5 @@ public class StripeService {
         } catch (StripeException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private void savePayment(Charge charge) {
-        User user = userService.getUserContext();
-        paymentsRepository.save(Payment
-                .builder()
-                .currency(charge.getCurrency())
-                .paymentId(charge.getId())
-                .paymentStatus(charge.getStatus())
-                .user(user)
-                .description(charge.getDescription())
-                .message(charge.getFailureMessage())
-                .transactionType(Payment.TransactionType.DEPOSIT)
-                .amount(new BigDecimal(charge.getAmount() / 100)).build());
     }
 }
