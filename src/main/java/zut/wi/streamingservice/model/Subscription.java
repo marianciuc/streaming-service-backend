@@ -1,12 +1,11 @@
 package zut.wi.streamingservice.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import zut.wi.streamingservice.enums.SubscriptionLevel;
 
 import java.math.BigDecimal;
 
@@ -25,6 +24,9 @@ public class Subscription extends BaseEntity{
 
     @Column(name = "price")
     private BigDecimal price;
+
+    @Enumerated(EnumType.STRING)
+    private SubscriptionLevel subscriptionLevel;
 
     @Column(name = "duration_days", nullable = false)
     private int durationDays;

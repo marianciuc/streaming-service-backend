@@ -1,9 +1,7 @@
 package zut.wi.streamingservice.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 import zut.wi.streamingservice.enums.OrderStatus;
@@ -12,8 +10,9 @@ import java.math.BigDecimal;
 
 @Table(name = "orders")
 @Data
-@Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 public class Order extends BaseEntity {
     @Enumerated(EnumType.STRING)
@@ -21,8 +20,9 @@ public class Order extends BaseEntity {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     private OrderStatus orderStatus = OrderStatus.CREATED;
 
-    @Column(name = "total_amount")
-    private BigDecimal totalAmount;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subscription_id", nullable = false)
+    private Subscription subscription;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
