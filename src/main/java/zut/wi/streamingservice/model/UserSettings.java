@@ -1,5 +1,6 @@
 package zut.wi.streamingservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,6 +17,7 @@ public class UserSettings extends BaseEntity{
     @Column(name = "theme")
     private String theme;
 
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "user_id")
     private User user;

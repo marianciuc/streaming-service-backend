@@ -20,9 +20,9 @@ public class Season extends BaseEntity{
     @Column(name = "description")
     private String description;
 
-    @Column(name = "date")
+    @Column(name = "relese_date")
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private Date releseDate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "season")
     @OrderBy("number ASC")
