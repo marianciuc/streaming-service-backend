@@ -1,6 +1,7 @@
 package zut.wi.streamingservice.service;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -8,6 +9,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import zut.wi.streamingservice.exceptions.JwtTokenExpiredException;
 
 import java.security.Key;
 import java.util.Date;
@@ -62,12 +64,15 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts
-                .parserBuilder()
-                .setSigningKey(getSignInKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+      try {
+          return Jwts.parserBuilder()
+                  .setSigningKey(getSignInKey())
+                  .build()
+                  .parseClaimsJws(token)
+                  .getBody();
+      } catch (ExpiredJwtException e){
+          throw new JwtTokenExpiredException("JWT expired", e);
+      }
     }
 
     private Key getSignInKey() {
