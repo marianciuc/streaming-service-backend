@@ -6,10 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import zut.wi.streamingservice.enums.OrderStatus;
 import zut.wi.streamingservice.exceptions.InsufficientFundsException;
+import zut.wi.streamingservice.exceptions.UserAlreadyHasSubscription;
 import zut.wi.streamingservice.model.Order;
 import zut.wi.streamingservice.model.Subscription;
 import zut.wi.streamingservice.model.User;
 import zut.wi.streamingservice.repository.OrderRepository;
+
 import java.util.UUID;
 
 @Service
@@ -23,11 +25,19 @@ public class OrderService {
 
     @Transactional
     public Order createOrder(UUID subscriptionId) {
-        try {
-            Subscription subscription = subscriptionService.getSubscription(subscriptionId);
-            User user = userService.getUserContext();
+        Subscription subscription = null;
+        User user = null;
+        Order order = null;
 
-            Order order = Order.builder()
+        try {
+            subscription = subscriptionService.getSubscription(subscriptionId);
+            user = userService.getUserContext();
+
+            if (user.getActiveSubscription() != null) {
+                throw new UserAlreadyHasSubscription("The user already has an active subscription.");
+            }
+
+            order = Order.builder()
                     .orderStatus(OrderStatus.CREATED)
                     .subscription(subscription)
                     .user(user)
@@ -37,14 +47,26 @@ public class OrderService {
             try {
                 paymentService.debitAccount(subscription, user);
                 order.setOrderStatus(OrderStatus.COMPLETED);
+                userService.enableSubscription(user);
             } catch (InsufficientFundsException exception) {
                 order.setOrderStatus(OrderStatus.FAILED);
                 orderRepository.save(order);
-                throw new InsufficientFundsException("Insufficient funds for order creation.");
+                throw exception;
             }
 
             return orderRepository.save(order);
+        } catch (InsufficientFundsException | UserAlreadyHasSubscription e) {
+            if (order != null) {
+                order.setOrderStatus(OrderStatus.FAILED);
+                orderRepository.save(order);
+            }
+            throw e;
         } catch (Exception e) {
+            log.error("Error during order creation.", e);
+            if (order != null) {
+                order.setOrderStatus(OrderStatus.FAILED);
+                orderRepository.save(order);
+            }
             throw new RuntimeException("Error during order creation.", e);
         }
     }

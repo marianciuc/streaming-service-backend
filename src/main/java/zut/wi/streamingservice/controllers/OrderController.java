@@ -15,7 +15,7 @@ import zut.wi.streamingservice.service.StripeService;
 public class OrderController {
     private final OrderService orderService;
 
-    @PostMapping("/charge")
+    @PostMapping()
     @ResponseBody
     public ResponseEntity<Order> createOrder(@RequestBody OrderRequest request) {
         return ResponseEntity.ok().body(orderService.createOrder(request.getSubscriptionId()));
