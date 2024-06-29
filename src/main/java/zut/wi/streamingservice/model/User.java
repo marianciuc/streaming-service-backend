@@ -13,10 +13,7 @@ import zut.wi.streamingservice.enums.RoleEnum;
 import zut.wi.streamingservice.enums.SubscriptionStatus;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "users")
@@ -63,6 +60,12 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name = "city")
     private String city;
 
+    @Column(name = "email_verified")
+    private boolean emailVerified = false;
+
+    @Column(name = "confirmation_code")
+    private String confirmationCode;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserSubscription> subscriptions = new ArrayList<>();
 
@@ -86,6 +89,7 @@ public class User extends BaseEntity implements UserDetails {
         if (this.userSettings == null) {
             this.userSettings = new UserSettings("en", "light",this);
         }
+        if (this.confirmationCode == null) this.confirmationCode = UUID.randomUUID().toString();
     }
 
     @Override
@@ -140,4 +144,6 @@ public class User extends BaseEntity implements UserDetails {
 
         return balance;
     }
+
+    public String getFirstnameLastname(){return firstName + " " + lastName;}
 }

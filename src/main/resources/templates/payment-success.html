@@ -1,0 +1,86 @@
+<!-- src/main/resources/templates/payment-success.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Recharge Confirmation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 1px solid #ddd;
+        }
+        .header {
+            background-color: #000000;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        .header img {
+            max-width: 100px;
+            margin-top: 10px;
+        }
+        .content {
+            margin: 20px 0;
+        }
+        .table-container {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        .table-container th, .table-container td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .table-container th {
+            background-color: #f2f2f2;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #777;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Account Recharge Confirmation</h1>
+    </div>
+    <div class="content">
+        <p>Hello, [[${username}]]</p>
+        <p>We are pleased to inform you that your account has been successfully recharged.</p>
+        <table class="table-container">
+            <tr>
+                <th>Amount Recharged</th>
+                <td>[[${recharged}]]</td>
+            </tr>
+            <tr>
+                <th>Current Balance</th>
+                <td>[[${curr}]]</td>
+            </tr>
+            <tr>
+                <th>Payment Date</th>
+                <td>[[${date}]]</td>
+            </tr>
+        </table>
+        <p>If you have any questions or need further assistance, please contact our support team.</p>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>

@@ -27,7 +27,7 @@ public class SecurityConfiguration {
         httpSecurity
                 .csrf().disable()
                 .authorizeRequests()
-                    .requestMatchers(AUTHENTICATION.getRoute()).permitAll()
+                    .requestMatchers(AUTHENTICATION.getRoute(), "/email/verification/**").permitAll()
                     .requestMatchers("/admin/**").hasAuthority(RoleEnum.ADMIN.name())
                     .requestMatchers("/subscribed/**")
                         .hasAnyAuthority(RoleEnum.SUBSCRIBED_USER.name(), RoleEnum.MODERATOR.name(), RoleEnum.ADMIN.name())
